@@ -1,0 +1,40 @@
+﻿@page "/edit/{pBlogId}"
+@using CS401_Final_Blazor.Data
+@inject NavigationManager _nav
+@inject BlogService _service
+<h3>Edit your post. <a href="/browse">Return to browse page</a></h3>
+<form @onsubmit="EditPost">
+    <div style="display: block; margin-bottom: 10px;"><label for="titleInput">Title: </label><input type="text" class="form-input" id="titleInput" @bind-value="model.Title" placeholder="Title" required/>
+    <label for="authorInput">Author: </label><input type="text" class="form-input" id="authorInput" @bind-value="model.Author" placeholder="Title" required/></div>
+    <label for="contentBlock">Content: </label><textarea rows="10" cols="50" class="form-input" id="contentBlock" @bind="model.Body" placeholder="Write your heart out" required/>
+    <button type="button" class="button" @onclick="DeletePost">Delete your post?</button>
+    <br />
+    
+        <button type="submit" class="button">Update the post</button>
+
+</form>
+
+
+@code {
+    [Parameter]
+    public string pBlogId { get; set; }
+    public Guid BlogId { get; set; }
+    public BlogModel model { get; set; } = null;
+    protected override async Task OnInitializedAsync()
+    {
+        BlogId = Guid.Parse(pBlogId);
+        model = _service.GetBlog(BlogId);
+        base.OnInitializedAsync();
+    }
+    public void EditPost()
+    {
+        model.LastModified = DateTime.Now;
+        _service.EditExistingBlog(model);
+        _nav.NavigateTo("/browse");
+    }
+    public void DeletePost()
+    {
+        _service.DeleteExistingBlog(BlogId);
+        _nav.NavigateTo("/delete");
+    }
+}

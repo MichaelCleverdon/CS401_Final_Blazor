@@ -1,0 +1,19 @@
+﻿@using CS401_Final_Blazor.Data
+@if (string.IsNullOrWhiteSpace(search) || (!string.IsNullOrWhiteSpace(search) && (model.Author.ToLower().Contains(search) || model.Title.ToLower().Contains(search))))
+{
+    <tr id="@model.Id" style="text-align: center;" @onclick="@(() => redirect(model.Id))">
+        <td>@model.Title</td>
+        <td>@model.Author</td>
+        <td>@model.LastModified</td>
+    </tr> 
+}
+
+
+@code {
+    [Parameter]
+    public BlogModel model { get; set; }
+    [Parameter]
+    public string search { get; set; }
+    [Parameter]
+    public Action<Guid> redirect { get; set; }
+}

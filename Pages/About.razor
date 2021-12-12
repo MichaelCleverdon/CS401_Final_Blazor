@@ -1,0 +1,43 @@
+﻿@page "/about"
+@using CS401_Final_Blazor.Data
+@inject RandomPictureService _service
+<h3>About this blog</h3>
+<p>This blog was developed in .NET 5 using Blazor Web Framework (which is built on top of the .NET Framework). I understand that obviously isn't what we learned during the class, but this has been a technology that I've been wanting to try out for some time now and I must say that I'm very glad that I finally got around to it.</p>
+<p>This implementation of .NET is super interesting. Not only can you make absolutely every piece of functional code in C# (a challenge I put on myself for this project), there's also quite a bit of Model binding that makes for seamless integration with my services on the server and the display of them in the browser. This is because this implementation of Blazor uses a SignalR Server (another Microsoft product) to communicate with the browser very quickly when events happen on the front-end. Events like OnClick and OnChange are handled through C# instead of Javascript. This means that someone who's been developing mainly in C#, can go on to make an enterprise web application with little, if any, knowledge of Javascript.</p>
+
+<p>Then there is the component creation that comes from Razor pages that Blazor also uses. This is how I made my table in the browse tab, I used components called TableRow and passed in the objects as parameters to that component and then the component would transform the model into actual HTML and render that as a row in my table</p>
+
+<p>On top of all the nice information above, here's an example of why Blazor is useful for larger applications. There's the ability to call API's using services on the server and have the responses be given back to the user in one go, which pushes developers towards microservices instead of making a large code monolith. Also, without making API calls in Javascript, all the security leaks of accidentally using production keys in Javascript (where everything is visible to the user through the console) can no longer exist. It also helps that when the new information comes back from the server, the page automatically gets re-rendered with the new information, so the developer doesn't have to constantly keep track of what data should now be on the page.</p>
+
+<h3>If you're interested in looking at the code of this site, I'd highly recommend looking through this page to see how the API calls work, the Create.razor page to see how the data-binding works with the C# model, and the two services in the Data folder (RandomPictureService and BlogService). If you're interested in the components, check out the Browse.razor page</h3>
+
+<h4>I wasn't sure if just making the blog would be enough to warrant using Blazor, so here's a random picture from an API that follows all of their guidelines to a T. I got an access token from signing up for their service, added the required links and credit to Unsplash for their service, and it returns asynchronously. <button @onclick="(() => UpdatePicture())">Click Here to get a new picture (it might take a bit to actually load the new picture)</button></h4>
+@if(picture == null)
+{
+<p>Loading Image...</p> 
+}else
+{
+    <figure>
+        <img src="@picture.Urls.Raw" width="400" alt="">
+        <figcaption>Credit: Unsplash; Photo Credit: <a href="@picture.User.Links.Profile?utm_source=CS401_Final&utm_medium=referral" target="_blank">@picture.User.Name</a></figcaption>
+    </figure>
+}
+
+@code {
+    private RandomPictureModel picture = null;
+    private bool loadingNewPicture = false;
+    protected override async Task OnInitializedAsync()
+    {
+        picture = await _service.GetRandomPictureAsync();
+        base.OnInitializedAsync();
+    }
+    private async void UpdatePicture()
+    {
+        picture = null;
+        loadingNewPicture = true;
+        StateHasChanged();
+        picture = await _service.GetRandomPictureAsync();
+        loadingNewPicture = false;
+        StateHasChanged();
+    }
+}

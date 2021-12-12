@@ -1,0 +1,49 @@
+﻿@page "/browse"
+@using CS401_Final_Blazor.Data
+@inject BlogService _blogService
+@inject NavigationManager _nav
+
+@if(blogs == null || blogs.Count() == 0){
+    @if(dataLoaded == false)
+    {
+        <p>Loading....</p>
+}
+    else
+    {
+        <p>No data was found. <a href="/create">Why not create a post while you're here</a></p>
+    }
+}
+else{
+    <input class="search" placeholder="Search" @bind-value="searchString" @bind-value:event="oninput">
+    <table>
+        <thead>
+            <tr>
+                <th width="30%">Title</th>
+                <th width="30%">Author</th>
+                <th width="15%">Last Modified</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach(var blog in blogs)
+        {
+            <BlogTableRow model=blog search=@searchString.ToLower() redirect="BrowseBlogPost"></BlogTableRow>
+        }
+        </tbody>
+    </table>
+}
+
+@code 
+{
+    private List<BlogModel> blogs = null;
+    public string searchString = "";
+    private bool dataLoaded = false;
+    protected override void OnInitialized()
+    {
+        blogs = _blogService.GetBlogsFromFile();
+        dataLoaded = true;
+    }
+    public void BrowseBlogPost(Guid id)
+    {
+        _nav.NavigateTo($"/edit/{id}");
+    }
+}

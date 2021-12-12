@@ -1,0 +1,21 @@
+﻿@page "/delete"
+@using System.Threading
+@inject NavigationManager _nav
+<h3>The blog post has successfully been deleted. Redirect will happen in: @timeUntilRedir</h3>
+
+
+@code {
+    public int timeUntilRedir { get; set; } = 2;
+    protected override void OnInitialized() => RedirectAsync();
+    private async void RedirectAsync()
+    {
+        while(timeUntilRedir > 0)
+        {
+            await Task.Delay(1000);
+            timeUntilRedir--;
+            StateHasChanged();
+
+        }
+        _nav.NavigateTo("/browse");
+    }
+}

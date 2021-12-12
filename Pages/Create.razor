@@ -1,0 +1,36 @@
+﻿@page "/create"
+@using CS401_Final_Blazor.Data
+@inject BlogService _service
+@inject NavigationManager _nav
+<h3>Create a new post</h3>
+@if (error)
+{
+    <h1 style="background-color: red; color: white;">An error has occurred while trying to save the post. Please try again later</h1>
+}
+<form @onsubmit="SubmitForm">
+    <div style="display: block; margin-bottom: 10px;"><label for="titleInput">Title: </label><input type="text" class="form-input" id="titleInput" @bind-value="model.Title" placeholder="Title" required/>
+    <label for="authorInput">Author: </label><input type="text" class="form-input" id="authorInput" @bind-value="model.Author" placeholder="Title" required/></div>
+    <label for="contentBlock">Content: </label><textarea rows="10" cols="50" class="form-input" id="contentBlock" @bind="model.Body" placeholder="Write your heart out" required/>
+    <br />
+    
+        <button type="submit" class="button">Post your new Creation</button>
+
+</form>
+
+@code {
+    public BlogModel model = new BlogModel();
+    public bool error = false;
+    public void SubmitForm(){
+        model.DateCreated = DateTime.Now;
+        model.LastModified = DateTime.Now;
+        if (_service.CreateNewBlog(model))
+        {
+            _nav.NavigateTo("/browse");
+
+        }
+        else
+        {
+            error = true;
+        }
+    }
+}

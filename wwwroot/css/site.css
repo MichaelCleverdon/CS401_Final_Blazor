@@ -1,0 +1,111 @@
+/*
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}*/
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+.search{
+    width: 99%;
+}
+table, th, td{
+    border: 1px solid purple;
+}
+
+table{
+    width: 100%;
+}
+body {
+    margin: 5px;
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    color: #3c9eb4;
+    background-color: #dedede;
+    background: linear-gradient(#E4E4E4, #EFEFEF);
+}
+.navItem a{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+    .navItem a.active{
+        background-color: #E4E4E4;
+    }
+
+
+h1 {
+    font-family: 'Lobster', cursive;
+}
+
+p {
+    font-family: 'Bree Serif', serif;
+}
+
+input{
+    padding: .7rem 0rem 1rem .8rem;
+    background: transparent;
+    border: solid 2px purple;
+}
+button {
+    display: inline-block;
+    background-image: linear-gradient(to bottom, #a575ff, #6c1eff);
+    padding: 0.35em 1.2em;
+    cursor: pointer;
+    /*border: 0.1em solid purple;*/
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 300;
+    color: #ccc;
+    /*box-shadow: #ccc 2px 2px inset;*/
+    text-align: center;
+}
+
+text-area {
+    margin: 4px;
+    padding: 4px;
+}
